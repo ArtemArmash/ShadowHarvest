@@ -512,22 +512,17 @@ private:
 
 		std::vector<BYTE> payload;
 
-		// ПЕРЕВІРКА: чи вже є префікс v10 у даних?
 		if (data[0] == 'v' && data[1] == '1' && data[2] == '0') {
 			payload = data;
 		}
 		else {
-			// Якщо немає - додаємо
 			payload = { 'v', '1', '0' };
 			payload.insert(payload.end(), data.begin(), data.end());
 		}
 
-		// Викликаємо дешифратор
 		std::string result = AESDecryptor::decrypt(payload, key);
 
 		if (result.empty()) {
-			// Якщо не спрацювало, спробуємо вивести статус через NTSTATUS
-			// Для цього я додав дебаг-принт прямо сюди
 			std::cout << " [DEBUG] Decryption returned empty string for data size: " << data.size() << "\n";
 		}
 
